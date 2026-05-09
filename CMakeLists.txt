@@ -171,6 +171,7 @@ if(TRITON_BUILD_PYTHON_MODULE)
     MLIRROCDLToLLVMIRTranslation
     MLIRGPUDialect
     MLIRSCFToControlFlow
+    MLIRSCFTransforms
     MLIRIndexToLLVM
     MLIRGPUToROCDLTransforms
 
