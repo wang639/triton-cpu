@@ -109,6 +109,9 @@ add_subdirectory(upstream/lib)
 # f2reduce 辅助库
 add_subdirectory(upstream/third_party/f2reduce)
 
+# 在 csrc 加入之前捕获上游库列表，防止 triton-anchor 的 Pass 被混入 libtriton.so
+get_property(TRITON_UPSTREAM_LIBS GLOBAL PROPERTY TRITON_LIBS)
+
 # ═══════════════════════════════════════════════════════════════════════
 # Part 2: 编译 triton-anchor 自有 C++ Pass（triton-linalg 等）
 # ═══════════════════════════════════════════════════════════════════════
@@ -139,8 +142,6 @@ if(TRITON_BUILD_PYTHON_MODULE)
   set(TRITON_BACKENDS_TUPLE "()")
   add_compile_definitions(TRITON_BACKENDS_TUPLE=${TRITON_BACKENDS_TUPLE})
 
-  get_property(triton_libs GLOBAL PROPERTY TRITON_LIBS)
-
   add_library(triton SHARED
     ${PYTHON_SRC_PATH}/main.cc
     ${PYTHON_SRC_PATH}/ir.cc
@@ -150,7 +151,7 @@ if(TRITON_BUILD_PYTHON_MODULE)
   )
 
   set(TRITON_LIBRARIES
-    ${triton_libs}
+    ${TRITON_UPSTREAM_LIBS}
 
     # MLIR 核心
     MLIRAMDGPUDialect
