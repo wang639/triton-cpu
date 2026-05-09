@@ -178,6 +178,11 @@ setup(
         "clean": CMakeClean,
     },
     zip_safe=False,
+    entry_points={
+        "triton.adapters": [
+            "triton-linalg = triton_anchor.adapters.triton_linalg_adapter:TritonLinalgAdapter",
+        ]
+    },
     keywords=["Compiler", "Deep Learning", "Triton"],
     classifiers=[
         "Development Status :: 3 - Alpha",
