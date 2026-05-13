@@ -150,7 +150,7 @@ if(TRITON_BUILD_PYTHON_MODULE)
 
   if(PYTHON_INCLUDE_DIRS)
     include_directories(${PYTHON_INCLUDE_DIRS})
-    include_directories(${PYBIND11_INCLUDE_DIR})
+    include_directories(${pybind11_INCLUDE_DIR})
   else()
     find_package(Python3 REQUIRED COMPONENTS Development Interpreter)
     include_directories(${Python3_INCLUDE_DIRS})
