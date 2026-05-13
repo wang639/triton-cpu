@@ -46,7 +46,9 @@ def _discover_backends():
         backends[name] = Backend(_find_concrete_subclasses(compiler, BaseBackend),
                                  _find_concrete_subclasses(driver, DriverBase))
 
-    # Discover out-of-tree backends via python entry_points
+    # Discover out-of-tree backends via python entry_points (pull 模式)
+    # 使用 ep.load() 直接加载插件类，从中读取 compiler/driver 信息，
+    # 避免导入整个顶层包（会触发循环导入：plugin 尝试 import backends，但 backends 还未赋值）。
     import importlib.metadata
     try:
         eps = importlib.metadata.entry_points(group="triton.backends")
@@ -56,16 +58,26 @@ def _discover_backends():
 
     for ep in eps:
         try:
-            # 导入 out-of-tree 后端模块以触发其自注册逻辑。
-            # 必须抑制 stdout/stderr，因为 CMake 的 execute_process 会捕获 stdout，
-            # 而后端模块的 import 可能打印警告信息，导致 CMake 变量被污染。
-            top_module_name = ep.module.split('.')[0]
-            import importlib
+            # 抑制 stdout/stderr，防止 CMake execute_process 捕获到杂乱输出
             import io
             import contextlib
             with contextlib.redirect_stdout(io.StringIO()), \
                  contextlib.redirect_stderr(io.StringIO()):
-                importlib.import_module(top_module_name)
+                plugin_obj = ep.load()
+
+            # 支持两种 entry_point 格式:
+            #   1. 类: ep.load() 返回一个类，实例化后读取 compiler_cls / driver_cls
+            #   2. 模块: ep.load() 返回模块，读取模块级 compiler_cls / driver_cls
+            if isinstance(plugin_obj, type):
+                plugin = plugin_obj()
+            else:
+                plugin = plugin_obj
+
+            compiler_cls = getattr(plugin, 'compiler_cls', None)
+            driver_cls = getattr(plugin, 'driver_cls', None)
+
+            if compiler_cls and driver_cls:
+                backends[ep.name] = Backend(compiler=compiler_cls, driver=driver_cls)
         except Exception as e:
             import sys
             print(f"Warning: Failed to load out-of-tree backend '{ep.name}': {e}",
