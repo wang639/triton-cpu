@@ -44,6 +44,9 @@ pip3 install uv --break-system-packages -i https://pypi.tuna.tsinghua.edu.cn/sim
 # 创建并激活虚拟环境
 uv venv /opt/venv
 source /opt/venv/bin/activate
+
+# 安装构建依赖
+uv pip install setuptools wheel pybind11
 ```
 
 ## 3. 准备 LLVM 工具链
@@ -87,13 +90,10 @@ cd /triton/triton-anchor
 export LLVM_SYSPATH=/path/to/llvm-release
 
 # 1. 直接安装（开发模式）
-uv pip install [--no-build-isolation] -e .
+uv pip install --no-build-isolation -e .
 
-# 2. 如果需要运行单元测试，安装 dev 依赖
-uv pip install -e ".[dev]"
-
-# 3. 如果需要构建分发包 (wheel / sdist)
-uv build --wheel [--no-build-isolation]
+# 2. 如果需要构建分发包 (wheel / sdist)
+uv build --wheel --no-build-isolation
 ```
 
 ## 5. 构建与集成硬件后端 (Out-of-Tree)
