@@ -1,0 +1,4 @@
+[submodule "FlagGems"]
+	path = FlagGems
+	url = https://github.com/flagos-ai/FlagGems.git
+	branch = refs/tags/v2.2
