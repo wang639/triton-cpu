@@ -151,7 +151,10 @@ def inject_hw_attributes(mod, hw: HWCapability, metadata: dict):
         elif hw.arch_family == "tpu" and hw.tensor_cap:
             mod.set_attr("hw.core_num", builder.get_int32_attr(hw.tensor_cap.num_cores))
         elif hw.arch_family == "gpu" and hw.gpgpu_cap:
-            mod.set_attr("hw.num_warps", builder.get_int32_attr(hw.gpgpu_cap.num_warps))
+            mod.set_attr(
+                "hw.num_warps",
+                builder.get_int32_attr(hw.gpgpu_cap.num_warps),
+            )
 
     except ImportError:
         pass
@@ -160,4 +163,3 @@ def inject_hw_attributes(mod, hw: HWCapability, metadata: dict):
     metadata["hw_name"] = hw.name
     metadata["hw_paradigm"] = hw.compute_paradigm.value
     metadata["hw_arch_family"] = hw.arch_family
-
