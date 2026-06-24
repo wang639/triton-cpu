@@ -3,7 +3,7 @@ Unified TTIR Pipeline
 ======================
 
 Extracts the 7 mandatory TTIR optimization passes that are 100% shared
-across all three projects (spine-triton, triton_race, fantasy-triton).
+across all three projects (triton-shared, triton_race, fantasy-triton).
 
 This is a **core invariant** — the pass list is append-only and
 synchronized with upstream Triton.

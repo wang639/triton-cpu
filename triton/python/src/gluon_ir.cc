@@ -12,7 +12,7 @@ namespace {
 
 [[noreturn]] void raiseUnsupported() {
   throw std::runtime_error(
-      "gluon_ir is not built in spine-triton-core minimal frontend");
+      "gluon_ir is not built in triton-shared-core minimal frontend");
 }
 
 struct GluonOpBuilder : public TritonOpBuilder {

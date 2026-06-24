@@ -1,7 +1,7 @@
 """
 triton-anchor build script.
 
-Builds the embedded spine-triton frontend/core as libtriton.so plus
+Builds the embedded triton-shared frontend/core as libtriton.so plus
 triton-shared-opt, then packages it together with the triton_anchor Python
 orchestration layer.
 """
@@ -229,8 +229,8 @@ class CMakeBuild(build_ext):
 setup(
     name="triton-anchor",
     version=read_version(),
-    description="Triton Anchor with spine triton-shared frontend/core integration",
-    long_description="Triton Anchor with spine triton-shared frontend/core integration",
+    description="Triton Anchor with triton-shared frontend/core integration",
+    long_description="Triton Anchor with triton-shared frontend/core integration",
     author="Triton Anchor Contributors",
     python_requires=">=3.10",
     package_dir={"": "python", "triton": "triton/python/triton"},

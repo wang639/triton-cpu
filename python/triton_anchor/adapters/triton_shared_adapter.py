@@ -1,8 +1,8 @@
 """
-TritonSharedAdapter — spine triton-shared integration
+TritonSharedAdapter — triton-shared integration
 =====================================================
 
-Uses the embedded ``triton-shared-opt`` tool from the packaged spine frontend
+Uses the embedded ``triton-shared-opt`` tool from the packaged triton-shared frontend
 build to lower TTIR to Linalg IR out-of-process.
 """
 
@@ -53,7 +53,7 @@ class TritonSharedAdapter(ILinalgOptAdapter):
                 self.name(),
                 detail=(
                     "triton-shared-opt not found. Set TRITON_SHARED_OPT_PATH or "
-                    "use a triton-anchor wheel that packages the spine frontend toolchain."
+                    "use a triton-anchor wheel that packages the triton-shared frontend toolchain."
                 ),
             )
 

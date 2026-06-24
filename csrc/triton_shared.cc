@@ -297,7 +297,7 @@ void init_triton_tle_ir(py::module &&m) {
           "Create insert_tile operation");
 }
 
-void init_triton_spine_triton(py::module &&m) {
+void init_triton_triton_shared(py::module &&m) {
   // load dialects
   m.def("load_dialects", [](mlir::MLIRContext &context) {
     mlir::DialectRegistry registry;

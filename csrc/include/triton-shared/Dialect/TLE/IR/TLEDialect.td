@@ -8,7 +8,7 @@ def TLE_Dialect : Dialect {
   let cppNamespace = "::mlir::tle";
 
   let description = [{
-    Triton Language Extension (TLE) dialect for spine-triton.
+    Triton Language Extension (TLE) dialect for triton-shared.
     Provides tile-level tensor operations: extract_tile, insert_tile.
   }];
 

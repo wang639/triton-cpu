@@ -1,6 +1,6 @@
-# spine-triton TLE (Triton Language Extension)
-# Migrated from FlagTree tle/core.py for spine-triton backend.
-# - cumsum: removed (not needed for spine-triton)
+# triton-shared TLE (Triton Language Extension)
+# Migrated from FlagTree tle/core.py for triton-shared backend.
+# - cumsum: removed (not needed for triton-shared)
 # - load: interface preserved, implementation pending
 # - extract_tile / insert_tile: fully migrated
 import builtins
@@ -67,7 +67,7 @@ def load(
     :param volatile: changes volatile option in NVIDIA PTX
     :type volatile: bool, optional
     """
-    # TODO: Enable async load support for spine-triton backend
+    # TODO: Enable async load support for triton-shared backend
     # Original FlagTree implementation:
     #   x = tl.load(pointer, mask=mask, other=other, boundary_check=boundary_check,
     #               padding_option=padding_option, cache_modifier=cache_modifier,
@@ -75,7 +75,7 @@ def load(
     #   x.handle.set_attr("tt.load.async", _semantic.builder.get_bool_attr(is_async))
     #   return x
     raise NotImplementedError(
-        "tle.load is not yet implemented for spine-triton. Use tl.load instead."
+        "tle.load is not yet implemented for triton-shared. Use tl.load instead."
     )
 
 

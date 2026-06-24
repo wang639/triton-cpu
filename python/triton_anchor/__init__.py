@@ -3,7 +3,7 @@ triton-anchor: Unified Triton Compilation Frontend
 ===================================================
 
 A compilation frontend that keeps the triton_anchor orchestration layer while
-embedding the spine triton-shared frontend/core toolchain.
+embedding the triton-shared frontend/core toolchain.
 
 Architecture:
   Layer 1   — TTIR Pipeline       (core invariant: 7 mandatory passes)

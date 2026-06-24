@@ -4,7 +4,7 @@ if(POLICY CMP0116)
   cmake_policy(SET CMP0116 OLD)
 endif()
 
-project(spine_triton_core CXX C)
+project(triton_shared_core CXX C)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -114,9 +114,9 @@ if(TRITON_BUILD_PYTHON_MODULE)
   find_package(pybind11 CONFIG REQUIRED HINTS "${Python3_SITELIB}")
   include_directories(${Python3_INCLUDE_DIRS})
 
-  list(APPEND TRITON_PLUGIN_NAMES "spine_triton")
+  list(APPEND TRITON_PLUGIN_NAMES "triton_shared")
 
-  triton_anchor_add_spine_plugin()
+  triton_anchor_add_triton_shared_plugin()
 
   if(TRITON_PLUGIN_DIRS)
     foreach(PLUGIN_DIR ${TRITON_PLUGIN_DIRS})

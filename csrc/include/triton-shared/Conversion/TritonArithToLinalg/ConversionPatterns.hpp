@@ -3529,7 +3529,7 @@ struct PrintOpConverter : public OpConversionPattern<triton::PrintOp> {
     auto func = op->getParentOfType<FunctionOpInterface>();
 
     // Extract program IDs from function arguments
-    // spine-triton convention: last 6 args = [num_progs_x/y/z, pid_x/y/z]
+    // triton-shared convention: last 6 args = [num_progs_x/y/z, pid_x/y/z]
     auto numArgs = func.getNumArguments();
     Value pid0 = func.getArgument(numArgs - 3); // pid_x
     Value pid1 = func.getArgument(numArgs - 2); // pid_y

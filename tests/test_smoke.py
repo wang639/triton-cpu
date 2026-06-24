@@ -5,7 +5,7 @@ triton-anchor 冒烟测试
 验证 triton-anchor 安装后的核心功能是否正常，不需要任何硬件后端。
 测试覆盖：
   1. Python 模块导入
-  2. C++ 绑定加载（libtriton.so + spine_triton plugin）
+  2. C++ 绑定加载（libtriton.so + triton_shared plugin）
   3. MLIR Dialect 注册
   4. HWCapability 数据结构
   5. AnchorIR Validator
@@ -95,15 +95,15 @@ def test_libtriton_binding():
     print(f"  passes 模块: {libtriton.passes}")
 
 
-def test_spine_triton_plugin_binding():
-    """验证 spine_triton C++ plugin 绑定是否注册"""
+def test_triton_shared_plugin_binding():
+    """验证 triton_shared C++ plugin 绑定是否注册"""
     from triton._C import libtriton
 
-    assert hasattr(libtriton, "spine_triton"), "libtriton 缺少 spine_triton plugin"
-    spine_triton = libtriton.spine_triton
-    print(f"  spine_triton 绑定模块加载成功: {spine_triton}")
-    assert hasattr(spine_triton, "load_dialects"), "缺少 load_dialects"
-    print("  spine_triton.load_dialects ✓")
+    assert hasattr(libtriton, "triton_shared"), "libtriton 缺少 triton_shared plugin"
+    triton_shared = libtriton.triton_shared
+    print(f"  triton_shared 绑定模块加载成功: {triton_shared}")
+    assert hasattr(triton_shared, "load_dialects"), "缺少 load_dialects"
+    print("  triton_shared.load_dialects ✓")
 
 
 def test_mlir_context_and_dialects():
@@ -119,9 +119,9 @@ def test_mlir_context_and_dialects():
     ir.load_dialects(ctx)
     print("  Triton 方言加载成功 ✓")
 
-    # 加载 spine triton-shared 方言
-    libtriton.spine_triton.load_dialects(ctx)
-    print("  spine_triton 方言加载成功 (xsmt, tle, triton-shared) ✓")
+    # 加载 triton-shared 方言
+    libtriton.triton_shared.load_dialects(ctx)
+    print("  triton_shared 方言加载成功 (xsmt, tle, triton-shared) ✓")
 
 
 def test_hw_capability():
@@ -251,7 +251,7 @@ def test_ttir_pipeline():
 
     ctx = ir.context()
     ir.load_dialects(ctx)
-    libtriton.spine_triton.load_dialects(ctx)
+    libtriton.triton_shared.load_dialects(ctx)
 
     pm = ir.pass_manager(ctx)
     # 不传 hw 参数，仅构建 7 个 mandatory passes
@@ -334,7 +334,7 @@ def test_ttir_generation():
     # 创建 MLIR context 并加载方言
     ctx = ir.context()
     ir.load_dialects(ctx)
-    libtriton.spine_triton.load_dialects(ctx)
+    libtriton.triton_shared.load_dialects(ctx)
 
     ttir_module = src.make_ir(
         target=None,
@@ -373,7 +373,7 @@ def main():
 
     # C++ 绑定测试
     run_test("libtriton C++ 绑定", test_libtriton_binding)
-    run_test("spine_triton plugin 绑定", test_spine_triton_plugin_binding)
+    run_test("triton_shared plugin 绑定", test_triton_shared_plugin_binding)
     run_test("MLIR Context 与 Dialect 注册", test_mlir_context_and_dialects)
 
     # 纯 Python 逻辑测试（不依赖 C++ 绑定）
