@@ -189,6 +189,11 @@ class CMakeBuild(build_ext):
             f"-DMLIR_DIR={mlir_dir}",
         ]
 
+        if os.environ.get("TRITON_EXTRA_LLVM_TARGETS"):
+            cmake_args.extend(
+                [f"-DTRITON_EXTRA_LLVM_TARGETS={target}" for target in os.environ.get("TRITON_EXTRA_LLVM_TARGETS").split()]
+            )
+
         ninja = shutil.which("ninja")
         if ninja:
             cmake_args = ["-G", "Ninja", f"-DCMAKE_MAKE_PROGRAM={ninja}"] + cmake_args
